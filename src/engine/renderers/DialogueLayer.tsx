@@ -6,13 +6,18 @@ import type { DialogueScene } from '@/engine/types';
 import { DialogueBox } from '../dialogue/DialogueBox';
 
 interface DialogueLayerProps {
-  dialogues: Record<string, DialogueScene>;
+  dialogues?: Record<string, DialogueScene>;
 }
 
 export function DialogueLayer({ dialogues }: DialogueLayerProps) {
   const activeDialogueId = useGameStateStore((state) => state.activeDialogueId);
 
   if (!activeDialogueId) {
+    return null;
+  }
+
+  if (!dialogues) {
+    console.warn('[DialogueLayer] dialogues prop not provided');
     return null;
   }
 

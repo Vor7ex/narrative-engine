@@ -6,14 +6,16 @@ import { SpriteLayer } from '../renderers/SpriteLayer';
 import { UILayer } from '../renderers/UILayer';
 import { DialogueLayer } from '../renderers/DialogueLayer';
 import type { Scene } from '../types';
+import type { DialogueScene } from '../types';
 import type { ReactNode } from 'react';
 
 interface SceneEngineProps {
   scenes: Record<string, Scene>;
+  dialogues?: Record<string, DialogueScene>;
   children?: ReactNode;
 }
 
-export function SceneEngine({ scenes, children }: SceneEngineProps) {
+export function SceneEngine({ scenes, dialogues, children }: SceneEngineProps) {
   const { currentSceneId } = useGameState();
   const currentScene = scenes[currentSceneId];
 
@@ -36,7 +38,7 @@ export function SceneEngine({ scenes, children }: SceneEngineProps) {
         <UILayer elements={currentScene.ui} />
       )}
 
-      <DialogueLayer />
+      <DialogueLayer dialogues={dialogues} />
 
       {children}
     </div>
