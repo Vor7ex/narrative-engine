@@ -38,6 +38,9 @@ export const useGameStateStore = create<GameState & GameStateActions>()(
 );
 
 export const useGameState = () => useGameStateStore();
+export const useCurrentScene = () => useGameStateStore((s) => s.currentSceneId);
+export const useActiveDialogue = () => useGameStateStore((s) => s.activeDialogueId);
+export const useFlags = () => useGameStateStore((s) => s.flags);
 export const setGameState = (partial: Partial<GameState> | ((prev: GameState) => Partial<GameState>)) => 
   useGameStateStore.getState().set(partial);
 export const resetGameState = () => useGameStateStore.getState().reset();
