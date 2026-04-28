@@ -1,6 +1,6 @@
 'use client';
 
-import { useGameState } from './GameStateStore';
+import { useCurrentScene } from './GameStateStore';
 import { BackgroundLayer } from '../renderers/BackgroundLayer';
 import { SpriteLayer } from '../renderers/SpriteLayer';
 import { UILayer } from '../renderers/UILayer';
@@ -16,7 +16,7 @@ interface SceneEngineProps {
 }
 
 export function SceneEngine({ scenes, dialogues, children }: SceneEngineProps) {
-  const { currentSceneId } = useGameState();
+  const currentSceneId = useCurrentScene();
   const currentScene = scenes[currentSceneId];
 
   if (!currentScene) {
