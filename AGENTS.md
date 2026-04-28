@@ -15,6 +15,37 @@ npm test -- --testPathPattern="filename.test.ts"  # Jest
 npm run test -- filename.spec.ts                  # Vitest
 ```
 
+## Arquitectura de Imports - Strict Boundaries
+
+### Reglas Obligatorias
+
+1. **`src/engine/`** (motor puro) es **ciego a los datos**:
+   - NUNCA debe importar de `@/content/`
+   - Solo recibe datos via props o Zustand store
+
+2. **`src/content/`** (datos del juego) es **dependiente del motor**:
+   - Solo debe importar tipos públicos y helpers re-exportados desde `@/engine`
+   - Jamás debe importar lógica de renderizado o engine
+
+3. **Barrel exports** - Usar los index.ts de cada módulo para definir la API pública:
+   - `@/engine` exporta la API pública del motor
+   - `@/content` exporta diálogos y escenas
+
+### Estructura de Imports Válida
+
+```
+✓ src/engine/renderers/... → @/engine/types
+✓ src/content/... → @/engine/types
+✓ src/app/... → @/engine (API pública)
+✓ src/engine → @/content (NUNCA)
+```
+
+### Propósito
+
+Estas reglas permiten que el motor se ejecute en aislamiento (ideal para testing, portabilidad) y mantiene separados los datos del intérprete.
+
+---
+
 ## TypeScript Configuration
 
 - **Strict mode**: `strict: true` is enabled in `tsconfig.json`
