@@ -14,7 +14,6 @@ export function ImageRenderer({ asset, className, priority = false }: ImageRende
       alt=""
       fill
       className={className}
-      loading="lazy"
       priority={priority}
     />
   );
