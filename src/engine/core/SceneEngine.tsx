@@ -25,8 +25,8 @@ export function SceneEngine({ scenes, dialogues, children }: SceneEngineProps) {
 
   return (
     <div
-      className="fixed inset-0 overflow-hidden"
-      style={{ aspectRatio: '9 / 16' }}
+      className="relative overflow-hidden"
+      style={{ aspectRatio: '9 / 16', height: '100vh' }}
     >
       <BackgroundLayer background={currentScene.background} />
 
