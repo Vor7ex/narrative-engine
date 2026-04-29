@@ -37,7 +37,7 @@ export function SpriteRenderer({ sprite }: SpriteRendererProps) {
       animate={controls}
     >
       {sprite.asset.kind === 'image' ? (
-        <ImageRenderer asset={sprite.asset} className="w-full h-full" />
+        <ImageRenderer asset={sprite.asset} className="w-full h-full" sizes={`${width}vw`} />
       ) : (
         <LottieRenderer asset={sprite.asset} className="w-full h-full" />
       )}

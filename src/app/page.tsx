@@ -1,6 +1,7 @@
 'use client';
 
-import { SceneEngine, useCurrentScene } from '@/engine';
+import { useEffect } from 'react';
+import { SceneEngine, useCurrentScene, setGameState } from '@/engine';
 import { BackgroundAmbient } from '@/engine';
 import { scenes } from '@/content/scenes';
 import { dialogues } from '@/content/dialogues';
@@ -8,6 +9,12 @@ import { dialogues } from '@/content/dialogues';
 export default function GamePage() {
   const currentSceneId = useCurrentScene();
   const currentScene = scenes[currentSceneId];
+
+  useEffect(() => {
+    if (!currentSceneId) {
+      setGameState({ currentSceneId: 's01-forest' });
+    }
+  }, [currentSceneId]);
 
   return (
     <>

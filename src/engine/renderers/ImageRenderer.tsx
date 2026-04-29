@@ -5,9 +5,10 @@ interface ImageRendererProps {
   asset: Extract<AssetSource, { kind: 'image' }>;
   className?: string;
   priority?: boolean;
+  sizes?: string;
 }
 
-export function ImageRenderer({ asset, className, priority = false }: ImageRendererProps) {
+export function ImageRenderer({ asset, className, priority = false, sizes }: ImageRendererProps) {
   return (
     <Image
       src={asset.src}
@@ -15,6 +16,7 @@ export function ImageRenderer({ asset, className, priority = false }: ImageRende
       fill
       className={className}
       priority={priority}
+      sizes={sizes}
     />
   );
 }
