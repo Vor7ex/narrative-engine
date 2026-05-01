@@ -16,7 +16,7 @@ export function BackgroundLayer({ background }: BackgroundLayerProps) {
         className="absolute inset-0 z-[var(--z-background)]"
         initial={background.initial}
       >
-        <ImageRenderer asset={background.asset} className="w-full h-full object-cover" priority={true} sizes="(max-width: 430px) 100vw, (max-width: 1024px) 75vw, 50vw" />
+        <ImageRenderer src={background.asset.src} className="w-full h-full object-cover" priority={true} sizes="(max-width: 430px) 100vw, (max-width: 1024px) 75vw, 50vw" />
       </motion.div>
     );
   }
