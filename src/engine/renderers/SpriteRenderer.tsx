@@ -12,7 +12,8 @@ interface SpriteRendererProps {
 export function SpriteRenderer({ sprite }: SpriteRendererProps) {
   const { position, size, zIndex } = sprite;
   const width = size.width;
-  const height = size.height ?? (width * 1.5);
+  const height = size.height;
+  const objectFit = height ? 'fill' : 'contain';
 
   return (
     <motion.div
@@ -21,18 +22,20 @@ export function SpriteRenderer({ sprite }: SpriteRendererProps) {
         left: `${position.x}%`,
         top: `${position.y}%`,
         width: `${width}%`,
-        height: `${height}%`,
+        height: height ? `${height}%` : 'auto',
+        aspectRatio: height ? undefined : '1/1',
         zIndex,
       }}
     >
       {sprite.asset.kind === 'image' ? (
-        <ImageRenderer src={sprite.asset.src} className="w-full h-full" />
+        <ImageRenderer src={sprite.asset.src} className="w-full h-full" objectFit={objectFit} />
       ) : (
         <LottieRenderer
           src={sprite.asset.src}
           loop={sprite.asset.loop}
           autoplay={sprite.asset.autoplay}
           className="w-full h-full"
+          objectFit={objectFit}
         />
       )}
     </motion.div>

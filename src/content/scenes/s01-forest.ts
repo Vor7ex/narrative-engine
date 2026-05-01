@@ -9,7 +9,30 @@ export const s01Forest: Scene = {
       src: '/assets/backgrounds/forest-day.jpg',
     },
   },
-  sprites: [],
+  sprites: [
+    {
+      id: 'penguin-sprite',
+      asset: {
+        kind: 'image',
+        src: '/assets/characters/penguin.png',
+      },
+      position: { x: -5, y: 0 },
+      size: { width: 120 },
+      zIndex: 8,
+    },
+    {
+      id: 'lottie-penguin',
+      asset: {
+        kind: 'lottie',
+        src: '/assets/lottie/penguin-with-binoculars.json',
+        loop: true,
+        autoplay: true,
+      },
+      position: { x: 0, y: 0 },
+      size: { width: 100, height: 20 },
+      zIndex: 15,
+    },
+  ],
   ui: [],
   transition: 'dissolve',
   onEnter: {
