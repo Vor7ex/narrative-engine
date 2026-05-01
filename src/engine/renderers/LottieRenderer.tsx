@@ -7,10 +7,11 @@ interface LottieRendererProps {
   src: string;
   loop?: boolean;
   autoplay?: boolean;
+  objectFit?: 'contain' | 'cover' | 'fill';
   className?: string;
 }
 
-export function LottieRenderer({ src, loop = true, autoplay = true, className }: LottieRendererProps) {
+export function LottieRenderer({ src, loop = true, autoplay = true, objectFit = 'contain', className }: LottieRendererProps) {
   const [animationData, setAnimationData] = useState<object | null>(null);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export function LottieRenderer({ src, loop = true, autoplay = true, className }:
   if (!animationData) return null;
 
   return (
-    <div className="relative w-full h-full pointer-events-none">
+    <div className={`relative w-full h-full pointer-events-none object-${objectFit}`}>
       <Lottie
         animationData={animationData}
         loop={loop}
