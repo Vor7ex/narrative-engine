@@ -26,7 +26,7 @@ export function BackgroundLayer({ background }: BackgroundLayerProps) {
       className="absolute inset-0 z-[var(--z-background)]"
       initial={background.initial}
     >
-      <LottieRenderer asset={background.asset} className="w-full h-full" />
+      <LottieRenderer src={background.asset.src} loop={background.asset.loop} autoplay={background.asset.autoplay} className="w-full h-full" />
     </motion.div>
   );
 }
