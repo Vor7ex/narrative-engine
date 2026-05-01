@@ -2,22 +2,23 @@
 
 import { useEffect, useState } from 'react';
 import Lottie from 'lottie-react';
-import type { AssetSource } from '@/engine/types';
 
 interface LottieRendererProps {
-  asset: Extract<AssetSource, { kind: 'lottie' }>;
+  src: string;
+  loop?: boolean;
+  autoplay?: boolean;
   className?: string;
 }
 
-export function LottieRenderer({ asset, className }: LottieRendererProps) {
+export function LottieRenderer({ src, loop = true, autoplay = true, className }: LottieRendererProps) {
   const [animationData, setAnimationData] = useState<object | null>(null);
 
   useEffect(() => {
     let cancelled = false;
 
-    fetch(asset.src)
+    fetch(src)
       .then((res) => {
-        if (!res.ok) throw new Error(`Failed to load ${asset.src}`);
+        if (!res.ok) throw new Error(`Failed to load ${src}`);
         return res.json();
       })
       .then((data) => {
@@ -26,16 +27,18 @@ export function LottieRenderer({ asset, className }: LottieRendererProps) {
       .catch((err) => console.error('[LottieRenderer]', err));
 
     return () => { cancelled = true; };
-  }, [asset.src]);
+  }, [src]);
 
   if (!animationData) return null;
 
   return (
-    <Lottie
-      animationData={animationData}
-      loop={asset.loop ?? true}
-      autoplay={asset.autoplay ?? true}
-      className={className}
-    />
+    <div className="relative w-full h-full pointer-events-none">
+      <Lottie
+        animationData={animationData}
+        loop={loop}
+        autoplay={autoplay}
+        className={className}
+      />
+    </div>
   );
 }

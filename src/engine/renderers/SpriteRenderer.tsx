@@ -39,7 +39,7 @@ export function SpriteRenderer({ sprite }: SpriteRendererProps) {
       {sprite.asset.kind === 'image' ? (
         <ImageRenderer src={sprite.asset.src} className="w-full h-full" sizes={`${width}vw`} />
       ) : (
-        <LottieRenderer asset={sprite.asset} className="w-full h-full" />
+        <LottieRenderer src={sprite.asset.src} loop={sprite.asset.loop} autoplay={sprite.asset.autoplay} className="w-full h-full" />
       )}
     </motion.div>
   );
