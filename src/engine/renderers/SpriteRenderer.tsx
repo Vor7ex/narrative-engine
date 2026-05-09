@@ -2,22 +2,28 @@
 
 import { motion } from 'framer-motion';
 import type { Sprite } from '@/engine/types';
+import { useHitboxDetection, DEFAULT_HITBOX } from '@/engine/core/useHitboxDetection';
 import { ImageRenderer } from './ImageRenderer';
 import { LottieRenderer } from './LottieRenderer';
+import { DebugHitbox } from './DebugHitbox';
 
 interface SpriteRendererProps {
   sprite: Sprite;
+  debug?: boolean;
 }
 
-export function SpriteRenderer({ sprite }: SpriteRendererProps) {
-  const { position, size, zIndex } = sprite;
+export function SpriteRenderer({ sprite, debug }: SpriteRendererProps) {
+  const { position, size, zIndex, onTap, onHover } = sprite;
   const width = size.width;
   const height = size.height;
   const objectFit = height ? 'fill' : 'contain';
+  const hitbox = sprite.hitbox ?? DEFAULT_HITBOX;
+  const { handlePointerDown, handlePointerEnter } = useHitboxDetection(hitbox, onTap, onHover);
+  const isInteractive = !!(onTap || onHover);
 
   return (
     <motion.div
-      className="absolute"
+      className={`absolute ${isInteractive ? 'cursor-pointer' : ''}`}
       style={{
         left: `${position.x}%`,
         top: `${position.y}%`,
@@ -26,6 +32,8 @@ export function SpriteRenderer({ sprite }: SpriteRendererProps) {
         aspectRatio: height ? undefined : '1/1',
         zIndex,
       }}
+      onPointerDown={handlePointerDown}
+      onPointerEnter={handlePointerEnter}
     >
       {sprite.asset.kind === 'image' ? (
         <ImageRenderer src={sprite.asset.src} className="w-full h-full" objectFit={objectFit} />
@@ -38,6 +46,7 @@ export function SpriteRenderer({ sprite }: SpriteRendererProps) {
           objectFit={objectFit}
         />
       )}
+      {debug && <DebugHitbox hitbox={hitbox} />}
     </motion.div>
   );
 }

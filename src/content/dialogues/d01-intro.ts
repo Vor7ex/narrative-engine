@@ -16,6 +16,9 @@ export const d01Intro: DialogueScene = {
           speed: 30,
         },
       ],
+      responses: [
+        { label: 'Continue', nextNodeId: undefined },
+      ],
       onComplete: {
         type: 'set-flag',
         key: 'intro-complete',

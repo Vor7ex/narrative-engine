@@ -1,6 +1,7 @@
 'use client';
 
 import { useCurrentScene } from './GameStateStore';
+import { useOnEnter } from './useOnEnter';
 import { BackgroundLayer } from '../renderers/BackgroundLayer';
 import { SpriteLayer } from '../renderers/SpriteLayer';
 import { UILayer } from '../renderers/UILayer';
@@ -39,6 +40,8 @@ export function SceneEngine({ scenes, dialogues, children }: SceneEngineProps) {
     getServerSnapshot
   );
 
+  useOnEnter(currentScene?.onEnter);
+
   if (!currentScene) {
     return null;
   }
@@ -54,7 +57,7 @@ export function SceneEngine({ scenes, dialogues, children }: SceneEngineProps) {
       <BackgroundLayer background={currentScene.background} />
 
       {currentScene.sprites && (
-        <SpriteLayer sprites={currentScene.sprites} />
+        <SpriteLayer sprites={currentScene.sprites} debugHitboxes />
       )}
 
       {currentScene.ui && (
