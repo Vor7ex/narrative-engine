@@ -12,7 +12,7 @@ export default function GamePage() {
 
   useEffect(() => {
     if (!currentSceneId) {
-      setGameState({ currentSceneId: 's01-forest' });
+      setGameState({ currentSceneId: 's02-cave' });
     }
   }, [currentSceneId]);
 

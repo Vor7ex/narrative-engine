@@ -5,13 +5,14 @@ import { SpriteRenderer } from './SpriteRenderer';
 
 interface SpriteLayerProps {
   sprites: Sprite[];
+  debugHitboxes?: boolean;
 }
 
-export function SpriteLayer({ sprites }: SpriteLayerProps) {
+export function SpriteLayer({ sprites, debugHitboxes }: SpriteLayerProps) {
   return (
     <div className="absolute inset-0 z-[var(--z-sprite)]">
       {sprites.map((sprite) => (
-        <SpriteRenderer key={sprite.id} sprite={sprite} />
+        <SpriteRenderer key={sprite.id} sprite={sprite} debug={debugHitboxes} />
       ))}
     </div>
   );
