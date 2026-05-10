@@ -38,7 +38,7 @@ export const s02Cave: Scene = {
       position: { x: 15, y: 40 },
       size: { width: 25, height: 10 },
       zIndex: 5,
-      hitbox: { offsetX: 25, offsetY: 0, width: 50, height: 35 },
+      hitbox: { offsetX: 0, offsetY: 0, width: 100, height: 100 },
       onTap: {
         condition: (state) => state.flags.metPenguin === true,
         trigger: { type: 'navigate-dialogue', dialogueId: 'd01-intro' },
@@ -50,11 +50,11 @@ export const s02Cave: Scene = {
   ],
   ui: [
     {
-      id: 'hint-button',
-      label: 'Hint',
+      id: 'scene-button',
+      label: 'Escena 1',
       position: { x: 85, y: 5 },
       onTap: {
-        trigger: { type: 'set-flag', key: 'metPenguin', value: true },
+        trigger: { type: 'navigate-scene', sceneId: 's01-forest' },
       },
     },
   ],
