@@ -39,7 +39,7 @@ export function useHitboxDetection(
       const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
 
       if (isPointInHitbox(e.clientX, e.clientY, hitbox, rect)) {
-        triggerSystem.dispatchConditional(onTap);
+        void triggerSystem.dispatchConditional(onTap);
       }
     },
     [hitbox, onTap]
@@ -52,7 +52,7 @@ export function useHitboxDetection(
       const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
 
       if (isPointInHitbox(e.clientX, e.clientY, hitbox, rect)) {
-        triggerSystem.dispatchConditional(onHover);
+        void triggerSystem.dispatchConditional(onHover);
       }
     },
     [hitbox, onHover]

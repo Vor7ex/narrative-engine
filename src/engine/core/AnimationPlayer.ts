@@ -27,6 +27,6 @@ export async function playAnimationSequence(sequence: AnimationSequence): Promis
 
   if (onComplete) {
     const { triggerSystem } = await import('./TriggerSystem');
-    triggerSystem.dispatch(onComplete);
+    await triggerSystem.dispatch(onComplete);
   }
 }

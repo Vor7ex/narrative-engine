@@ -13,6 +13,6 @@ export function useOnEnter(trigger?: Trigger) {
     if (!trigger || hasEnteredRef.current === currentSceneId) return;
 
     hasEnteredRef.current = currentSceneId;
-    triggerSystem.dispatch(trigger);
+    void triggerSystem.dispatch(trigger);
   }, [currentSceneId, trigger]);
 }

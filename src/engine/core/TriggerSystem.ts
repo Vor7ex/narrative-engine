@@ -1,5 +1,6 @@
 import type { Trigger, ConditionalTrigger } from '../types';
 import { useGameStateStore } from './GameStateStore';
+import { playAnimationSequence } from './AnimationPlayer';
 
 class TriggerSystem {
   private static instance: TriggerSystem;
@@ -13,9 +14,17 @@ class TriggerSystem {
     return TriggerSystem.instance;
   }
 
-  dispatch(trigger: Trigger): void {
+  async dispatch(trigger: Trigger): Promise<void> {
     if (trigger.type === 'composite') {
-      trigger.sequence.forEach((t) => this.dispatch(t));
+      await trigger.sequence.reduce(
+        (p, t) => p.then(() => this.dispatch(t)),
+        Promise.resolve()
+      );
+      return;
+    }
+
+    if (trigger.type === 'play-animation') {
+      await playAnimationSequence(trigger.animation);
       return;
     }
 
@@ -32,7 +41,6 @@ class TriggerSystem {
               [trigger.key]: trigger.value,
             },
           };
-        case 'play-animation':
         case 'play-audio':
         case 'stop-audio':
           return {};
@@ -42,14 +50,14 @@ class TriggerSystem {
     });
   }
 
-  dispatchConditional(conditional: ConditionalTrigger): void {
+  async dispatchConditional(conditional: ConditionalTrigger): Promise<void> {
     const state = useGameStateStore.getState();
 
     if (conditional.condition && !conditional.condition(state)) {
       return;
     }
 
-    this.dispatch(conditional.trigger);
+    await this.dispatch(conditional.trigger);
   }
 }
 
