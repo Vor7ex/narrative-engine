@@ -14,20 +14,20 @@ El motor es un **intérprete de datos**. Una experiencia se define como un grafo
 Definición (datos TS)
        │
        ▼
-  SceneEngine  ──────────────────────────────────────────────────────────┐
-  (intérprete)                                                            │
-       │                                                                  │
-       ├── renderiza ──► Scene                                            │
-       │                  ├── Background (imagen o Lottie)                │
-       │                  ├── Sprite[]   (imagen, Lottie, clickeable)     │
-       │                  └── UI[]       (botones, overlays)              │
-       │                                                                  │
-       └── renderiza ──► DialogueScene                                    │
+  SceneEngine  ────────────────────────────────────────────────────────────┐
+  (intérprete)                                                             │
+       │                                                                   │
+       ├── renderiza ──► Scene                                             │
+       │                  ├── Background (imagen o Lottie)                 │
+       │                  ├── Sprite[]   (imagen, Lottie, clickeable)      │
+       │                  └── UI[]       (botones, overlays)               │
+       │                                                                   │
+       └── renderiza ──► DialogueScene                                     │
                           ├── Background                                   │
                           ├── Avatar (= Sprite con rol semántico)          │
                           └── DialogueBox (typewriter, branches, skip)     │
                                                                            │
-  TriggerSystem ◄─── Sprite / UI / Background disparan eventos ──────────┘
+  TriggerSystem ◄─── Sprite / UI / Background disparan eventos ────────────┘
        │
        ├──► ejecuta AnimationSequence   (puede encadenar a ► )
        ├──► navega a DialogueScene
