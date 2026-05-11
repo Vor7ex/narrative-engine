@@ -33,7 +33,16 @@ export const s01Forest: Scene = {
       zIndex: 15,
     },
   ],
-  ui: [],
+  ui: [
+    {
+      id: 'scene-change-button',
+      label: 'Scene 02',
+      position: { x: 75, y: 5 },
+      onTap: {
+        trigger: { type: 'navigate-scene', sceneId: 's02-cave' },
+      },
+    },
+  ],
   transition: 'dissolve',
   onEnter: {
     type: 'navigate-dialogue',

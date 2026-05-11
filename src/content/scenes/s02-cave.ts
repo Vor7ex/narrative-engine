@@ -50,11 +50,11 @@ export const s02Cave: Scene = {
   ],
   ui: [
     {
-      id: 'hint-button',
-      label: 'Hint',
-      position: { x: 85, y: 5 },
+      id: 'scene-change-button',
+      label: 'Scene 01',
+      position: { x: 75, y: 5 },
       onTap: {
-        trigger: { type: 'set-flag', key: 'metPenguin', value: true },
+        trigger: { type: 'navigate-scene', sceneId: 's01-forest' },
       },
     },
   ],
