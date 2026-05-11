@@ -9,7 +9,7 @@
 ## 1. Modelo mental
 
 El motor es un **intérprete de datos**. Una experiencia se define como un grafo de `Scene` y `DialogueScene` en TypeScript puro. El motor lee esos datos y renderiza. Ninguna escena nueva requiere tocar el código del motor.
-
+ 
 ```
 Definición (datos TS)
        │
