@@ -5,9 +5,7 @@ export async function playAnimationSequence(sequence: AnimationSequence): Promis
   const { steps, onComplete } = sequence;
 
   for (const step of steps) {
-    const controls = getAnimationControls(step.target) as {
-      start: (target: unknown, options?: unknown) => Promise<void>;
-    } | null;
+    const controls = getAnimationControls(step.target);
 
     if (!controls) {
       console.warn(`[AnimationPlayer] No controls found for target: ${step.target}`);
