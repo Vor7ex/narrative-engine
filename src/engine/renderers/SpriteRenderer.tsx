@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import type { Sprite } from '@/engine/types';
 import { useHitboxDetection, DEFAULT_HITBOX } from '@/engine/core/useHitboxDetection';
+import { useAnimationRegistration } from '@/engine/core/useAnimationRegistration';
 import { ImageRenderer } from './ImageRenderer';
 import { LottieRenderer } from './LottieRenderer';
 import { DebugHitbox } from './DebugHitbox';
@@ -13,6 +14,8 @@ interface SpriteRendererProps {
 }
 
 export function SpriteRenderer({ sprite, debug }: SpriteRendererProps) {
+  useAnimationRegistration(sprite.id);
+
   const { position, size, zIndex, onTap, onHover } = sprite;
   const width = size.width;
   const height = size.height;
@@ -32,6 +35,7 @@ export function SpriteRenderer({ sprite, debug }: SpriteRendererProps) {
         aspectRatio: height ? undefined : '1/1',
         zIndex,
       }}
+      initial={sprite.initial}
       onPointerDown={handlePointerDown}
       onPointerEnter={handlePointerEnter}
     >

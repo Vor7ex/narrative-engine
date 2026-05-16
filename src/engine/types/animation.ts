@@ -10,12 +10,12 @@ export type AnimatableProps = {
 
 export interface AnimationOptions {
   duration?: number;
-  ease?: string;
+  ease?: unknown;
   delay?: number;
 }
 
 export interface EngineAnimationControls {
-  start(target: AnimatableProps, options?: AnimationOptions): Promise<void>;
+  start(target: unknown, options?: AnimationOptions): Promise<void>;
   stop(): void;
 }
 

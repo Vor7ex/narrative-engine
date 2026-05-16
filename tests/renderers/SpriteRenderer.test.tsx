@@ -10,6 +10,10 @@ vi.mock('framer-motion', () => ({
       <div data-testid="sprite-container" {...props}>{children}</div>
     )),
   },
+  useAnimationControls: vi.fn(() => ({
+    start: vi.fn().mockResolvedValue(undefined),
+    stop: vi.fn(),
+  })),
 }));
 
 vi.mock('@/engine/renderers/ImageRenderer', () => ({
