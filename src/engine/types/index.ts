@@ -9,6 +9,8 @@ export type {
   AnimatableProps,
   AnimationStep,
   AnimationSequence,
+  AnimationOptions,
+  EngineAnimationControls,
 } from './animation';
 
 export type {

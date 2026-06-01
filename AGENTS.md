@@ -7,13 +7,13 @@ npm run dev        # Start development server (http://localhost:3000)
 npm run build      # Production build
 npm run start      # Start production server
 npm run lint       # Run ESLint with flat config (eslint.config.mjs)
-npm test           # Run Vitest tests
+npm test           # Run Vitest tests (watch mode)
 npm test -- --run  # Run Vitest once (CI mode)
 ```
 
 **Running a single test file:**
 ```bash
-npm test -- src/path/to/file.spec.ts      # Vitest
+npm test -- src/path/to/file.spec.ts
 ```
 
 ## Import Architecture - Strict Boundaries
@@ -33,7 +33,6 @@ npm test -- src/path/to/file.spec.ts      # Vitest
    - `@/content` exports dialogues and scenes
 
 ### Valid Import Structure
-
 ```
 ✓ src/engine/renderers/... → @/engine/types
 ✓ src/content/... → @/engine/types
@@ -47,6 +46,7 @@ npm test -- src/path/to/file.spec.ts      # Vitest
 - **Path aliases**: `@/*` maps to `./src/*`
 - **Module resolution**: `bundler` mode
 - **JSX**: `react-jsx` transform
+- **Testing**: Vitest with jsdom environment + @testing-library
 
 ### TypeScript Guidelines
 
@@ -63,6 +63,46 @@ const greet = (user: UserProps): string => `Hello, ${user.name}`;
 
 // Bad
 const greet = (user: any): any => `Hello, ${user.name}`;
+```
+
+## Testing Guidelines
+
+```typescript
+import { render, screen, fireEvent } from '@testing-library/react';
+import { expect, it, describe, vi } from 'vitest';
+
+describe('Component', () => {
+  it('renders content', () => {
+    render(<Component title="Test" />);
+    expect(screen.getByText('Test')).toBeInTheDocument();
+  });
+});
+```
+
+- Use `@testing-library/react` for component tests
+- Use `@testing-library/jest-dom` for assertions
+- Mock Zustand stores with `vi.mock()` for isolated testing
+- Wrap async operations with `waitFor` from testing-library
+
+## Zustand Store Pattern
+
+```typescript
+import { create } from 'zustand';
+import type { StateCreator } from 'zustand';
+
+interface GameState {
+  currentScene: string;
+  setCurrentScene: (scene: string) => void;
+}
+
+const useGameStore = create<GameState>()(
+  (set): StateCreator<GameState> => ({
+    currentScene: 'intro',
+    setCurrentScene: (scene) => set({ currentScene: scene }),
+  })
+);
+
+export default useGameStore;
 ```
 
 ## Next.js 16 App Router
@@ -115,8 +155,6 @@ interface ComponentProps {
 
 export default async function Component({ title, children }: ComponentProps) {
   if (!title) return null;
-  // Hooks (client components only, 'use client' required above)
-  // Data fetching (server components)
   return (
     <div>
       <h1>{title}</h1>
@@ -149,13 +187,19 @@ export default async function Component({ title, children }: ComponentProps) {
 ```
 src/
 ├── app/              # Next.js App Router
-├── content/          # Static assets (characters, backgrounds, lottie)
-│   ├── characters/
-│   ├── backgrounds/
-│   └── lottie/
+├── content/          # Game data (dialogues, scenes)
+│   ├── dialogues/
+│   ├── scenes/
+│   └── index.ts
+├── engine/           # Pure engine (data-blind)
+│   ├── core/
+│   ├── dialogue/
+│   ├── renderers/
+│   ├── types/
+│   └── index.ts
 ├── components/       # Reusable React components
-├── lib/             # Utilities and helpers
-└── types/           # Shared TypeScript types
+├── lib/              # Utilities and helpers
+└── types/            # Shared TypeScript types
 ```
 
 ## Linting

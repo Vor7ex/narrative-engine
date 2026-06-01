@@ -10,6 +10,10 @@ vi.mock('framer-motion', () => ({
       <div data-testid="sprite-container" {...props}>{children}</div>
     )),
   },
+  useAnimationControls: vi.fn(() => ({
+    start: vi.fn().mockResolvedValue(undefined),
+    stop: vi.fn(),
+  })),
 }));
 
 vi.mock('@/engine/renderers/ImageRenderer', () => ({
@@ -18,6 +22,13 @@ vi.mock('@/engine/renderers/ImageRenderer', () => ({
 
 vi.mock('@/engine/renderers/LottieRenderer', () => ({
   LottieRenderer: vi.fn(() => <div data-testid="lottie-renderer">LottieRenderer</div>),
+}));
+
+vi.mock('@/engine/core/AnimationRegistry', () => ({
+  registerAnimation: vi.fn(),
+  unregisterAnimation: vi.fn(),
+  getAnimationControls: vi.fn(),
+  clearAllAnimations: vi.fn(),
 }));
 
 describe('SpriteRenderer', () => {
@@ -66,5 +77,25 @@ describe('SpriteRenderer', () => {
     });
 
     expect(screen.getByTestId('lottie-renderer')).toBeInTheDocument();
+  });
+
+  it('Debe registrar su ID en el AnimationRegistry al montar', async () => {
+    const { registerAnimation } = await import('@/engine/core/AnimationRegistry');
+
+    render(<SpriteRenderer sprite={mockSpriteImage} />);
+
+    expect(registerAnimation).toHaveBeenCalledWith(
+      'test-sprite',
+      expect.objectContaining({ start: expect.any(Function), stop: expect.any(Function) })
+    );
+  });
+
+  it('Debe desregistrar su ID al desmontar', async () => {
+    const { unregisterAnimation } = await import('@/engine/core/AnimationRegistry');
+
+    const { unmount } = render(<SpriteRenderer sprite={mockSpriteImage} />);
+    unmount();
+
+    expect(unregisterAnimation).toHaveBeenCalledWith('test-sprite');
   });
 });

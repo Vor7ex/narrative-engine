@@ -8,6 +8,17 @@ export type AnimatableProps = {
   rotate?: number;
 };
 
+export interface AnimationOptions {
+  duration?: number;
+  ease?: unknown;
+  delay?: number;
+}
+
+export interface EngineAnimationControls {
+  start(target: unknown, options?: AnimationOptions): Promise<void>;
+  stop(): void;
+}
+
 export type AnimationStep = {
   target: string;
   to: AnimatableProps;
